@@ -5,17 +5,50 @@
  */
 package client_a;
 
-/**
- *
- * @author lorenzin.matteo
- */
+import java.net.*;
+import java.io.*;
+import java.util.Scanner;
+
 public class Client_a {
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public static void main(String[] args) throws IOException {
+        Socket clientSocket;
+        PrintWriter out;
+        BufferedReader in;
+        Scanner sc;
+        clientSocket = new Socket("192.168.56.1", 5000);
+        out = new PrintWriter(clientSocket.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        sc = new Scanner(System.in);
+        String scelta, nome, psw, testo;
+
+        System.out.println("vuoi registrare un nuovo utente o loggarti? [reg]"
+                + " / [log]");
+        scelta = sc.next();
+        out.println(scelta);
+        if (scelta.equalsIgnoreCase("log")) {
+            System.out.println("inserire user: ");
+            nome = sc.next();
+            out.println(nome);
+            System.out.println("inserire password: ");
+            psw = sc.next();
+            out.println(psw);
+        } else if (scelta.equalsIgnoreCase("reg")) {
+            System.out.println("registra user: ");
+            nome = sc.next();
+            out.println(nome);
+            System.out.println("registra password: ");
+            psw = sc.next();
+            out.println(psw);
+            
+        }
+        
+        in.close();
+        out.close();
+        clientSocket.close();
     }
-    
+
 }
