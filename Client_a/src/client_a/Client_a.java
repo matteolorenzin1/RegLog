@@ -24,28 +24,36 @@ public class Client_a {
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         sc = new Scanner(System.in);
         String scelta, nome, psw, testo;
-
-        System.out.println("vuoi registrare un nuovo utente o loggarti? [reg]"
-                + " / [log]");
-        scelta = sc.next();
-        out.println(scelta);
-        if (scelta.equalsIgnoreCase("log")) {
-            System.out.println("inserire user: ");
-            nome = sc.next();
-            out.println(nome);
-            System.out.println("inserire password: ");
-            psw = sc.next();
-            out.println(psw);
-        } else if (scelta.equalsIgnoreCase("reg")) {
-            System.out.println("registra user: ");
-            nome = sc.next();
-            out.println(nome);
-            System.out.println("registra password: ");
-            psw = sc.next();
-            out.println(psw);
-            
-        }
+        boolean uscita = true;
         
+       while (uscita) {
+            System.out.println("vuoi registrare un nuovo utente o loggarti? [reg]"
+                    + " / [log]");
+            scelta = sc.next();
+            if (scelta.equalsIgnoreCase("log")) {
+                System.out.println("inserire user: ");
+                nome = sc.next();
+                System.out.println("inserire password: ");
+                psw = sc.next();
+                out.println(scelta);
+                out.println(nome);
+                out.println(psw);
+                testo = in.readLine();
+                System.out.println(testo);
+                uscita = false;
+            } else if (scelta.equalsIgnoreCase("reg")) {
+                System.out.println("registra user: ");
+                nome = sc.next();
+                System.out.println("registra password: ");
+                psw = sc.next();
+                out.println(scelta);
+                out.println(nome);
+                out.println(psw);
+                testo = in.readLine();
+                System.out.println(testo);
+            }
+        } 
+
         in.close();
         out.close();
         clientSocket.close();

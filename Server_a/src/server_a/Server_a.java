@@ -10,6 +10,7 @@ import java.io.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Server_a {
 
@@ -27,19 +28,36 @@ public class Server_a {
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         FileWriter myWriter = new FileWriter("Credenziali.txt");
-        String scelta, nome, psw;
-
-        scelta = in.readLine();
-        if (scelta.equalsIgnoreCase("log")) {
-
-        } else if (scelta.equalsIgnoreCase("reg")) {
-            nome = in.readLine();
-            psw = in.readLine();
-            myWriter.write(nome + " " + psw);
-            myWriter.close();
-            
+        File myObj = new File("Credenziali.txt");
+        Scanner myReader = new Scanner(myObj);
+        String scelta, nome, psw, uscita = "", testo;
+        boolean exit = true;
+        while ( exit){
+            scelta = in.readLine();
+            if (scelta.equalsIgnoreCase("log")) {
+                nome = in.readLine();
+                psw = in.readLine();
+                testo = nome + " " + psw;
+                if (testo.equals(myReader.nextLine())) {
+                    uscita = "ok";
+                } else {
+                    uscita = "errore";
+                }
+                out.println(uscita);
+                exit = false;
+            } else if (scelta.equalsIgnoreCase("reg")) {
+                nome = in.readLine();
+                psw = in.readLine();
+                try {
+                    myWriter.write(nome + " " + psw);
+                    myWriter.close();
+                    out.println("credenziali salvate");
+                } catch (IOException e) {
+                    out.println("errore ");
+                }
+            }
         }
-        
+
         in.close();
         out.close();
         clientSocket.close();
